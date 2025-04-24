@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday!</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      color: #333;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    .container {
+      padding: 50px 20px;
+    }
+    h1 {
+      font-size: 3em;
+      color: #ff69b4;
+    }
+    h2 {
+      margin-top: 10px;
+      color: #ff8c00;
+    }
+    .message {
+      font-size: 1.2em;
+      margin: 20px auto;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    .photo {
+      margin: 30px auto;
+    }
+    .photo img {
+      max-width: 100%; /* Make the image responsive */
+      height: auto;    /* Maintain aspect ratio */
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    canvas {
+      position: fixed;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 Birthday music autoplay -->
+  <audio autoplay loop muted oncanplay="this.muted = false;">
+    <source src="first-sight.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <canvas id="confetti"></canvas>
+
+  <div class="container">
+    <h1>🎉 Happy Birthday, Paathuu! 🎂</h1>
+    <h2>May 10, 2025</h2>
+
+    <div class="message">
+      <p>To my amazing best friend,</p>
+      <p>You're the kind of person who makes life brighter just by being in it. Here's to laughter, late-night talks, inside jokes, and endless memories. Wishing you a day full of love, cake, and all the things you enjoy most!</p>
+      <p>💖</p>
+    </div>
+
+    <div class="photo">
+      <img src="image.jpg" alt="Happy moments together" />
+    </div>
+  </div>
+
+  <!-- 🎊 Confetti effect -->
+  <script>
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+    for (let i = 0; i < 50; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 6 + 4,
+        speed: Math.random() * 3 + 2,
+        color: `hsl(${Math.random() * 360}, 100%, 70%)`
+      });
+    }
+
+    function updateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of pieces) {
+        p.y += p.speed;
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * canvas.width;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      }
+      requestAnimationFrame(updateConfetti);
+    }
+
+    updateConfetti();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
