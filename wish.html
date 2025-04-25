@@ -13,8 +13,32 @@
       text-align: center;
       overflow-x: hidden;
     }
+    .welcome-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff0f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 1000;
+      transition: opacity 1s ease;
+    }
+    .welcome-screen button {
+      padding: 15px 30px;
+      font-size: 1.5em;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
     .container {
       padding: 50px 20px;
+      display: none;
     }
     h1 {
       font-size: 3em;
@@ -34,8 +58,8 @@
       margin: 30px auto;
     }
     .photo img {
-      max-width: 100%; /* Make the image responsive */
-      height: auto;    /* Maintain aspect ratio */
+      max-width: 100%;
+      height: auto;
       border-radius: 20px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
@@ -50,15 +74,17 @@
 </head>
 <body>
 
-  <!-- 🎵 Birthday music autoplay -->
-  <audio autoplay loop muted oncanplay="this.muted = false;">
-    <source src="first-sight.mp3" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio>
+  <!-- Welcome Screen -->
+  <div class="welcome-screen" id="welcomeScreen">
+    <h1>🎁 A Surprise Awaits!</h1>
+    <button id="openBtn">Open</button>
+  </div>
 
+  <!-- Confetti -->
   <canvas id="confetti"></canvas>
 
-  <div class="container">
+  <!-- Main Birthday Content -->
+  <div class="container" id="mainContent">
     <h1>🎉 Happy Birthday, Paathuu! 🎂</h1>
     <h2>May 10, 2025</h2>
 
@@ -73,11 +99,16 @@
     </div>
   </div>
 
-  <!-- 🎊 Confetti effect -->
+  <!-- Birthday Music -->
+  <audio id="bgMusic" autoplay>
+    <source src="first-sight.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- JavaScript for interaction -->
   <script>
     const canvas = document.getElementById("confetti");
     const ctx = canvas.getContext("2d");
-
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -113,6 +144,24 @@
     window.addEventListener("resize", () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+    });
+
+    // Open button logic
+    const openBtn = document.getElementById("openBtn");
+    const welcomeScreen = document.getElementById("welcomeScreen");
+    const mainContent = document.getElementById("mainContent");
+
+    openBtn.addEventListener("click", () => {
+      welcomeScreen.style.opacity = "0";
+      setTimeout(() => {
+        welcomeScreen.style.display = "none";
+        mainContent.style.display = "block";
+
+        const music = document.getElementById("bgMusic");
+        music.play().catch(() => {
+          console.log("Autoplay blocked. User gesture required.");
+        });
+      }, 1000);
     });
   </script>
 
